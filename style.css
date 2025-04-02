@@ -21,15 +21,15 @@ body {
 }
 
 .button-wrapper {
-    background: radial-gradient(circle, #ffeb3b, #ff9800, #f44336);
-    padding: 40px;
+    background: #ff0000; /* Changed to solid red */
+    padding: 60px;
     border-radius: 20px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 }
 
 button {
-    padding: 30px 60px;
-    font-size: 36px;
+    padding: 40px 80px; /* Increased size */
+    font-size: 48px; /* Increased font size */
     background-color: #ffffff;
     color: #ff4444;
     border: 5px solid #ff4444;
