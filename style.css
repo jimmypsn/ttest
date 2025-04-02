@@ -1,11 +1,19 @@
 body {
+    margin: 0;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #f0f0f0;
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96c93d);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
     font-family: Arial, sans-serif;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 0%; }
+    50% { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
 }
 
 .container {
@@ -15,19 +23,16 @@ body {
 button {
     padding: 20px 40px;
     font-size: 24px;
-    background-color: #ff4444;
-    color: white;
-    border: none;
-    border-radius: 5px;
+    background-color: #ffffff;
+    color: #ff4444;
+    border: 3px solid #ff4444;
+    border-radius: 10px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: transform 0.2s, background-color 0.2s;
 }
 
 button:hover {
-    background-color: #cc0000;
-}
-
-#gameCanvas {
-    border: 2px solid #333;
-    background-color: #87ceeb;
+    background-color: #ff4444;
+    color: #ffffff;
+    transform: scale(1.1);
 }
