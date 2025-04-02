@@ -4,23 +4,38 @@ document.getElementById('playButton').addEventListener('click', function() {
         'videos/video2.mp4',
         'videos/video3.mp4',
         'videos/video4.mp4',
-        'videos/video5.mp4' // Added fifth video
+        'videos/video5.mp4'
     ];
 
     // Open 5 moving tabs
     videoFiles.forEach((url, index) => {
-        const newWindow = window.open('', 'Buta Game', 'width=400,height=300');
+        const newWindow = window.open('', `ButaGameWindow${index}`, 'width=400,height=300');
         if (newWindow) {
+            // Write the HTML content with proper video setup
             newWindow.document.write(`
-                <title>Buta Game</title>
-                <video style="max-width: 100%;" autoplay loop>
-                    <source src="${url}" type="video/mp4">
-                </video>
-                <script>
-                    window.onbeforeunload = function() {
-                        return "Are you sure you want to close? Game might not save.";
-                    };
-                </script>
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Buta Game</title>
+                    <style>
+                        body { margin: 0; overflow: hidden; }
+                        video { width: 100%; height: 100%; object-fit: cover; }
+                    </style>
+                </head>
+                <body>
+                    <video id="popupVideo" autoplay loop muted>
+                        <source src="${url}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <script>
+                        window.onbeforeunload = function() {
+                            return "Are you sure you want to close? Game might not save.";
+                        };
+                        // Ensure video plays
+                        document.getElementById('popupVideo').play();
+                    </script>
+                </body>
+                </html>
             `);
             newWindow.document.close();
 
@@ -40,6 +55,8 @@ document.getElementById('playButton').addEventListener('click', function() {
                 requestAnimationFrame(moveWindow);
             }
             moveWindow();
+        } else {
+            console.error('Popup blocked. Please allow popups for this site.');
         }
     });
 
