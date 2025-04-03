@@ -1,3 +1,4 @@
+/* styles.css */
 body {
     margin: 0;
     height: 100vh;
@@ -21,15 +22,15 @@ body {
 }
 
 .button-wrapper {
-    background: #ff0000; /* Changed to solid red */
+    background: #ff0000;
     padding: 60px;
     border-radius: 20px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 }
 
 button {
-    padding: 40px 80px; /* Increased size */
-    font-size: 48px; /* Increased font size */
+    padding: 80px 160px; /* Doubled size from 40px 80px */
+    font-size: 96px; /* Doubled from 48px */
     background-color: #ffffff;
     color: #ff4444;
     border: 5px solid #ff4444;

